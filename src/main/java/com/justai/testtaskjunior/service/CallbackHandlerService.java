@@ -1,5 +1,6 @@
 package com.justai.testtaskjunior.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.justai.testtaskjunior.model.callbacks.VkJsonCallback;
@@ -44,6 +45,11 @@ public class CallbackHandlerService {
     private void handleMessageNew(JsonNode object) throws IOException, ErroneousResponseException {
         JsonNode messageNode = object.get("message");
         VkMessage message = objectMapper.treeToValue(messageNode, VkMessage.class);
-        basicMessageNewHandlerService.handle(message);
+        checkForErrors(basicMessageNewHandlerService.handle(message));
+
+    }
+    private void checkForErrors(String result) throws ErroneousResponseException, JsonProcessingException {
+        JsonNode response = objectMapper.readTree(result);
+        if (response.has("error")) throw new ErroneousResponseException(response.get("Error").asText());
     }
 }
