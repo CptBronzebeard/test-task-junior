@@ -11,7 +11,7 @@ import java.util.List;
 @Component
 @Scope("prototype")
 public class MessageSendQuery extends ApiQuery {
-    @Value("${random.int}")
+    @Value("${bot.random}")
     private int randomId;
 
     @Autowired

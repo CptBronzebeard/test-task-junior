@@ -37,7 +37,7 @@ public class BasicMessageNewHandlerService implements ObjectHandler<VkMessage> {
 
     private String sendToGroup(VkMessage message, MessageSendQuery query) {
         query.peerId(message.getPeerId());
-        query.userIds(Collections.singletonList(message.getId()));
+        query.userIds(Collections.singletonList(message.getFromId()));
         query.chatId(message.getPeerId() - 2000000000);
         commonOps(message, query);
         return query.execute();
