@@ -8,6 +8,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Random;
+
 
 @Configuration
 @PropertySource("classpath:/vk/api.properties")
@@ -29,9 +31,8 @@ public class AppConfig {
         return new RestTemplate();
     }
 
-/*    @Bean
-    @Scope(value = "prototype")
-    public MessageSendQuery messageSendQuery(HttpClientWrapper httpClientWrapper) {
-        return new MessageSendQuery(httpClientWrapper);
-    }*/
+    @Bean
+    public Random getRandom() {
+        return new Random();
+    }
 }

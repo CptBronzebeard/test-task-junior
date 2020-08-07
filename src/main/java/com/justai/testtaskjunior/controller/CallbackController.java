@@ -1,6 +1,7 @@
 package com.justai.testtaskjunior.controller;
 
 import com.justai.testtaskjunior.service.CallbackHandlerService;
+import com.justai.testtaskjunior.util.exceptions.ErroneousResponseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -21,7 +22,7 @@ public class CallbackController {
     @RequestMapping(value = "${vk.callback}", method = RequestMethod.POST, consumes = {"application/json"})
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    String doChatBotResponse(@RequestBody String incomingMessage) throws IOException {
+    String handleCallback(@RequestBody String incomingMessage) throws IOException, ErroneousResponseException {
         return callbackHandler.handleCallback(incomingMessage);
     }
 }
