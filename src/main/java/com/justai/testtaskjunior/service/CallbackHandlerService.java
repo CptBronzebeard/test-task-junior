@@ -10,16 +10,16 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.Map;
 
 @Service
 public class CallbackHandlerService {
     private ObjectMapper objectMapper;
-    private MessageHandlerService messageHandlerService;
+    private BasicMessageHandlerService basicMessageHandlerService;
+
     @Autowired
-    public CallbackHandlerService(ObjectMapper objectMapper, MessageHandlerService messageHandlerService) {
+    public CallbackHandlerService(ObjectMapper objectMapper, BasicMessageHandlerService basicMessageHandlerService) {
         this.objectMapper = objectMapper;
-        this.messageHandlerService = messageHandlerService;
+        this.basicMessageHandlerService = basicMessageHandlerService;
     }
 
     @Value("${vk.api.confirmation-string}")
@@ -39,10 +39,11 @@ public class CallbackHandlerService {
                 return "ok";
         }
     }
+
     @Async
     void handleMessage(JsonNode object) throws IOException {
         JsonNode messageNode = object.get("message");
         VkMessage message = objectMapper.treeToValue(messageNode, VkMessage.class);
-        messageHandlerService.handle(message);
+        basicMessageHandlerService.handle(message);
     }
 }
